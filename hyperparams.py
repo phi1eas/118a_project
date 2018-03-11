@@ -105,41 +105,41 @@ class hyperparam_learner:
 
 class hyperparam_explorer:
     """
-    Calculates cross-validated scores for combinations of hyperparameters.
+        Calculates cross-validated scores for combinations of hyperparameters.
 
-        data_dict:        Dict of data (X and y), e.g.:
-                          data_dict = {'data1_name': [data1_X_train, data2_y_train],
-                                       'data2_name': [data2_X_train, data2_y_train]}.
+            data_dict:        Dict of data (X and y), e.g.:
+                              data_dict = {'data1_name': [data1_X_train, data2_y_train],
+                                           'data2_name': [data2_X_train, data2_y_train]}.
 
-        hyperparam_dict:  Dict of classifiers and hyperparameters, e.g.:
-                          hyperparam_dict = {'knn': {'n_neighbors': [1, 2, 3]},
-                                             'svm': {'C': [1e-2, 1e-1],
-                                                     'alpha': [1e-5, 1e-6]}}
-	
-	clf_dict:         Dict of classifiers, e.g.:
-			  clf_dict = {'knn': neighbors.KNeighborsClassifier()}
+            hyperparam_dict:  Dict of classifiers and hyperparameters, e.g.:
+                              hyperparam_dict = {'knn': {'n_neighbors': [1, 2, 3]},
+                                                 'svm': {'C': [1e-2, 1e-1],
+                                                         'alpha': [1e-5, 1e-6]}}
 
-	cv:               Number of cross-validation folds
+            clf_dict:         Dict of classifiers, e.g.:
+                              clf_dict = {'knn': neighbors.KNeighborsClassifier()}
 
-    Format of returned results object: e.g.,
+            cv:               Number of cross-validation folds
 
-    {'data1_name': {'clf1_name': clf1_result_matrix,
-                    'clf2_name': clf2_result_matrix}
-     'data2_name': {'clf1_name': clf1_result_matrix,
-                    'clf2_name': clf2_result_matrix}}
-    Where the first k columns of the result matrices for each classifier include all possible
-      combinations of hyperparameters, the the next column contains the mean cross-validated score
-      and the last column contains the sd of cross-validated scores.
-      
-    Methods:
-    
-        work():           Explores hyperparameters
-        
-        get_results():    Returns hyperparameters
-        
-        save():           Writes object to file (including data, parameters, and results)
-        
-        load(filename):   Loads object from file (class method)
+        Format of returned results object: e.g.,
+
+        {'data1_name': {'clf1_name': clf1_result_matrix,
+                        'clf2_name': clf2_result_matrix}
+         'data2_name': {'clf1_name': clf1_result_matrix,
+                        'clf2_name': clf2_result_matrix}}
+        Where the first k columns of the result matrices for each classifier include all possible
+          combinations of hyperparameters, the the next column contains the mean cross-validated score
+          and the last column contains the sd of cross-validated scores.
+
+        Methods:
+
+            work():           Explores hyperparameters
+
+            get_results():    Returns hyperparameters
+
+            save():           Writes object to file (including data, parameters, and results)
+
+            load(filename):   Loads object from file (class method)
     """
     
     data_dict       = None
@@ -147,7 +147,7 @@ class hyperparam_explorer:
     cv              = None
     clf_dict        = None
     
-    has_worked      = False
+    has_explored    = False
     
     result_dict     = None
     
@@ -157,7 +157,24 @@ class hyperparam_explorer:
         self.cv               = cv
         self.clf_dict         = clf_dict
         
-    def work(self):
+    def process_more_data(self, data_dict):
+        # Buffer old data and result dicts, overwrite with additional data, explore, and then concatenate
+        
+        if(not self.has_explored):
+            raise Exception('This explorer has not explored ANY data yet!')
+        
+        old_data_dict    = self.data_dict
+        old_result_dict  = self.result_dict
+        
+        self.data_dict   = data_dict
+        self.result_dict = None
+        
+        self.explore()
+        
+        self.data_dict = dict(old_data_dict, **data_dict)
+        self.result_dict = dict(old_result_dict, **self.result_dict)
+        
+    def explore(self):
         # Report progress so we know when to go and get coffee
         n_hyperparam_list = []
         for clf in self.hyperparam_dict:
@@ -214,12 +231,12 @@ class hyperparam_explorer:
                 clf_hyperparam_comb_scores.columns = clf_hyperparam_list + ['scores_mean', 'scores_sd']
                 result_dict[data_name][clf_name] = clf_hyperparam_comb_scores
         
-        self.has_worked = True
+        self.has_explored = True
         self.result_dict = result_dict
         return(result_dict)
     
     def get_results(self):
-        if(not self.has_worked):
+        if(not self.has_explored):
             raise Exception("This hyperparameter explorer has not done any exploration work yet!")
         return(self.result_dict)
     
@@ -229,7 +246,7 @@ class hyperparam_explorer:
             return pickle.load(f)
     
     def save(self, filename):
-        if not self.has_worked:
+        if not self.has_explored:
             raise Exception("This hyperparameter explorer has not done any exploration work yet!")
         
         with open(filename + '.pkl', 'wb') as f:
