@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import itertools as it
 import pickle
+from sklearn import svm
 from sklearn.model_selection import cross_val_score
 
 def init_clf(clf_code, clf_dict):
@@ -203,7 +204,12 @@ class hyperparam_explorer:
 
                 # Loop through hyperparameter combinations
                 for clf_hyperparam_comb_idx, clf_hyperparam_comb in enumerate(clf_hyperparam_comb_list):
-                    clf = init_clf(clf_name, self.clf_dict)
+                    # <hack> because init_clf does not work with svm.SVC() for some reason
+                    if(clf_name == 'svm'):
+                        clf = svm.SVC()
+                    else:
+                        clf = init_clf(clf_name, self.clf_dict)
+                    # </hack>
 
                     # Assign hyperparameters to clf: loop through hyperparameters
                     for hyperparam_name in clf_hyperparam_list:
