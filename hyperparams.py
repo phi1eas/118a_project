@@ -3,6 +3,7 @@ import pandas as pd
 import itertools as it
 import pickle
 from sklearn import svm
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
 def init_clf(clf_code, clf_dict):
@@ -35,19 +36,70 @@ def compute_accuracies(data_X_train, data_y_train, data_X_test, data_y_test, clf
     
     return(accuracy_dict)
 
-class hyperparam_learner:
-    # TODO: TAKE CARE OF CLF_DICT!!!
-
-    data_X_train  = None
-    data_y_train  = None
-    data_desc     = None
-    clf_code_list = None
-    cv_fold       = None
-    
+class hyperparam_cv_gs:
+    data_dict       = None
     hyperparam_dict = None
+    cv              = None
+    clf_dict        = None
     
-    is_fitted     = False
-    has_learned   = False
+    has_searched    = False
+    
+    result_dict     = None
+    
+    def __init__(self, data_dict, hyperparam_dict, clf_dict, cv=5):
+        self.data_dict        = data_dict
+        self.hyperparam_dict  = hyperparam_dict
+        self.cv               = cv
+        self.clf_dict         = clf_dict
+        
+    def process_more_data(self, data_dict):
+        # Buffer old data and result dicts, overwrite with additional data, explore, and then concatenate
+        
+        if(not self.has_explored):
+            raise Exception('This explorer has not explored ANY data yet!')
+        
+        old_data_dict    = self.data_dict
+        old_result_dict  = self.result_dict
+        
+        self.data_dict   = data_dict
+        self.result_dict = None
+        
+        self.search()
+        
+        self.data_dict = dict(old_data_dict, **data_dict)
+        self.result_dict = dict(old_result_dict, **self.result_dict)
+        
+    def search(self):
+        # Report progress so we know when to go and get coffee
+#         n_hyperparam_list = []
+#         for clf in self.hyperparam_dict:
+#             for hyperparam in self.hyperparam_dict[clf]:
+#                 n_hyperparam_list.append(len(self.hyperparam_dict[clf][hyperparam]))
+#         n_hyperparam_combs = np.product(n_hyperparam_list)
+#         verbose_n_iter = len(self.data_dict) * n_hyperparam_combs
+#         verbose_iter = 0
+
+        result_dict = dict()
+        # Loop through data sets
+        for data_name, data_X_y in self.data_dict.items():
+            result_dict[data_name] = dict()
+            X = data_X_y[0]
+            y = data_X_y[1]
+            
+            # Loop through classifiers
+            for clf_name, clf_hyperparam_dict in self.hyperparam_dict.items():
+                clf = init_clf(clf_name, self.clf_dict)
+                clf_gs = GridSearchCV(clf, clf_hyperparam_dict, cv=self.cv, n_jobs=4)
+                clf_gs.fit(X, y)
+                result_dict[data_name][clf_name] = clf_gs.best_params_
+        
+        self.result_dict = result_dict
+        self.has_searched = True
+    
+    def get_results(self):
+        if(not self.has_searched):
+            raise Exception("This hyperparameter explorer has not done any exploration work yet!")
+        return(self.result_dict)
     
     @classmethod
     def load(cls, filename):
@@ -55,54 +107,11 @@ class hyperparam_learner:
             return pickle.load(f)
     
     def save(self, filename):
-        if not self.is_fitted:
-            raise Exception('I am not fitted yet!')
-        if not self.has_learned:
-            raise Exception('I have not learned any hyperparameters yet!')
+        if not self.has_explored:
+            raise Exception("This hyperparameter explorer has not done any exploration work yet!")
         
         with open(filename + '.pkl', 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
-    
-    def fit(self, data_X_train, data_y_train, data_desc, clf_code_list, cv_fold):
-        self.data_X_train   = data_X_train
-        self.data_y_train   = data_y_train
-        self.data_desc      = data_desc
-        self.clf_code_list  = clf_code_list
-        self.cv_fold        = cv_fold
-        self.is_fitted      = True
-    
-    def learn_hyperparams(self, clf_param_grid):
-        if(not self.is_fitted):
-            raise Exception('I am not fitted yet!')
-            
-        if isinstance(self.clf_code_list, str):
-            if self.clf_code_list == 'all':
-                self.clf_code_list = list(CLF_DICT.keys())
-            else:
-                self.clf_code_list = [self.clf_code_list]
-
-        learned_hyperparam_dict = dict()
-        considered_hyperparam_dict = dict()
-
-        for clf_code in self.clf_code_list:
-            considered_hyperparam_dict[clf_code] = clf_param_grid[clf_code]
-            gs_clf = GridSearchCV(init_clf(clf_code), clf_param_grid[clf_code], cv=self.cv_fold, n_jobs=4)
-            gs_clf.fit(self.data_X_train, self.data_y_train)
-            learned_hyperparam_dict[clf_code] = gs_clf.best_params_
-
-        hyperparam_dict = {'learned_hyperparams'    : learned_hyperparam_dict,
-                           'considered_hyperparams' : considered_hyperparam_dict,
-                           'data_desc'              : self.data_desc}
-        
-        self.hyperparam_dict = hyperparam_dict
-        self.has_learned = True
-        return(self.hyperparam_dict)
-    
-    def get_hyperparams(self):
-        if(self.has_learned):
-            return(self.hyperparam_dict)
-        else:
-            raise Exception('I have not learned any hyperparameters yet!')
 
 class hyperparam_explorer:
     """
