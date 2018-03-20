@@ -12,6 +12,7 @@
 
 \usepackage{booktabs}
 %\usepackage{graphicx}
+\usepackage[tableposition=top]{caption}
 \usepackage{lipsum}
 \usepackage{diagbox}
 \usepackage{rotating}
@@ -61,6 +62,24 @@
 		% - Data desc
 		% - CLF desc
 		% - Hyperparam desc
+		
+		\subsection{Problems}
+			% Data size table
+			\begin{table}[h]
+				\captionbox{Original and limited sizes of data sets}{
+				\label{tab:data_sizes}
+				\begin{tabular}{lll}
+					\toprule
+					Data set & Orig. Size & Lim. Size \\
+					\midrule
+					COVTYPE	& $(581011 \times 55)$	& $(2000 \times 55) $ \\
+					INCOME	& $(32561 \times 109)$	& $(2000 \times 109) $ \\
+					LETTER	& $(20000 \times 16)$	& ($2000 \times 16) $ \\
+					IRIS	& \multicolumn{2}{c}{--- $(150 \times 5)$ ---} \\
+					WDBC	& \multicolumn{2}{c}{--- $(569 \times 31)$ ---} \\
+					\bottomrule
+				\end{tabular}}
+			\end{table}
 	
 	\section{Experiments}
 		
@@ -142,7 +161,6 @@
 			\end{figure}
 		
 		\subsection{Overall Classifier Performance}
-			\lipsum
 			
 			% Model selection results: Best hyperparams
 			\begin{table}[ph!]
@@ -168,7 +186,7 @@
 			
 			% Overall average results of clfs on datasets
 			\begin{table}[h]
-				\caption{Classifier testing accuracy by problem, averaged over shuffles (0.8 train split):}
+				\captionbox{Classifier testing accuracy by problem, averaged over shuffles (0.8 train split):}{
 				\begin{tabular}{lrrrrr}
 					\toprule
 					Classifier & WDBC & INCOME & IRIS & COVTYPE & LETTER \\
@@ -180,12 +198,12 @@
 					Logistic Regression & .968 &   .792 & \textbf{.967} &    .968 &   .721 \\
 					Random Forest     & \textbf{.982} &   \textbf{.848} & .944 &    \textbf{.976} &   .897 \\
 					\bottomrule
-				\end{tabular}
+				\end{tabular}}
 			\end{table}
 		
 			% Overall average results of clfs, sorted
 			\begin{table}[h]
-				\caption{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split):}
+				\captionbox{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split):}{
 				\label{tab:clf_ranking}
 				\begin{tabular}{lr}
 					\toprule
@@ -198,7 +216,7 @@
 					Decision Tree     &     .900 \\
 					Logistic Regression &     .883 \\
 					\bottomrule
-				\end{tabular}
+				\end{tabular}}
 			\end{table}
 	
 	\section{Conclusion}
