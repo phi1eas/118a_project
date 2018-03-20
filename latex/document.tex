@@ -14,7 +14,9 @@
 %\usepackage{graphicx}
 \usepackage{lipsum}
 \usepackage{diagbox}
+\usepackage{rotating}
 \usepackage{subcaption}
+\usepackage{multirow}
 
 % Definitions of handy macros can go here
 
@@ -56,11 +58,72 @@
 	\section{Introduction}
 	
 	\section{Method}
+		% - Data desc
+		% - CLF desc
+		% - Hyperparam desc
 	
-	\section{Experiment}
+	\section{Experiments}
 		
 		\subsection{Hyperparameters and Performance}
+			% Hyperparam figures # 1
+			\begin{figure}[h]
+				\centering
+				
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{knn_hyperparam_zoomed}
+					\caption{KNN: \textit{k}}
+					\label{fig:hyperparam_knn_zoomed}
+				\end{subfigure}
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{knn_hyperparam_all}
+					\caption{KNN: \textit{k}}
+					\label{fig:hyperparam_knn_all}
+				\end{subfigure}
 			
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{dt_hyperparam_max_depth}
+					\caption{Decision Tree: \textit{max\_depth}}
+					\label{fig:hyperparam_dt_max_depth}
+				\end{subfigure}
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{dt_hyperparam_max_features}
+					\caption{Decision Tree: \textit{max\_features}}
+					\label{fig:hyperparam_dt_max_features}
+				\end{subfigure}
+				
+				\caption{Validation score by hyperparameter value for KNN (\ref{fig:hyperparam_knn_zoomed} and \ref{fig:hyperparam_knn_all}) and Decision Tree (\ref{fig:hyperparam_dt_max_depth} and \ref{fig:hyperparam_dt_max_features}), averaged over data, shuffles, and train split. \ref{fig:hyperparam_knn_zoomed} zooms in on a subset of the results shown in \ref{fig:hyperparam_dt_max_depth} for greater detail. \ref{fig:hyperparam_dt_max_depth} depicts results for varying levels of \textit{max\_depth}, averaged over \textit{max\_features}, wheres the opposite is done in \ref{fig:hyperparam_dt_max_depth}.}
+				\label{fig:hyperparam_knn_dt}
+			\end{figure}
+			
+			% Hyperparam figures # 2
+			\begin{figure}[h]
+				\centering
+				
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{logreg_hyperparam}
+					\caption{Logistic Regression: \textit{C}}
+					\label{fig:hyperparam_logreg}
+				\end{subfigure}
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{rf_hyperparam}
+					\caption{Random Forest: \textit{n\_estimators}}
+					\label{fig:hyperparam_rf}
+				\end{subfigure}
+				
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{bagdt_hyperparam}
+					\caption{Bagged Decision Trees: \textit{n\_estimators}}
+					\label{fig:hyperparam_bagdt}
+				\end{subfigure}
+				\begin{subfigure}[b]{.45\linewidth}
+					\includegraphics[width=\linewidth]{bstdt_hyperparam}
+					\caption{Boosted Decision Trees: \textit{n\_estimators}}
+					\label{fig:hyperparam_bstdt}
+				\end{subfigure}
+				
+				\caption{Validation score by hyperparameter value for Logistic Regression (\ref{fig:hyperparam_logreg}), Random Forest (\ref{fig:hyperparam_rf}), Bagged Decision Trees (\ref{fig:hyperparam_bagdt}), and Boosted Decision Trees (\ref{fig:hyperparam_bstdt}).}
+				\label{fig:hyperparam_others}
+			\end{figure}
 		
 		\subsection{Train/Test split and Performance}
 			\begin{figure}[h]
@@ -74,41 +137,66 @@
 					\caption{Testing accuracy}
 					\label{fig:perf_by_trainsplit_te}
 				\end{subfigure}
-			\caption{Training and testing accuracy by train split, averaged over problems and shuffles}
-			\label{fig:perf_by_trainsplit}
+				\caption{Training (\ref{fig:perf_by_trainsplit_tr}) and testing (\ref{fig:perf_by_trainsplit_te}) accuracy by train split and classifier, averaged over problems and shuffles (rf: Random Forest, logreg: Logistic Regression, dt: Decision Tree, bagdt: Bagged Trees, bstdt: Boosted Trees)}
+				\label{fig:perf_by_trainsplit}
 			\end{figure}
 		
 		\subsection{Overall Classifier Performance}
+			\lipsum
+			
+			% Model selection results: Best hyperparams
+			\begin{table}[ph!]
+				\caption{Best hyperparameter values after grid search by classifier and problem in each of three random shuffles (0.8 train split):}
+				\label{tab:best_hyperparams_by_problem_shuffles}
+				\begin{tabular}{lllllll}
+					\toprule
+					& & \multicolumn{5}{c}{Problem} \\\cline{3-7}
+					Classifier & Hyperparam. &         COVTYPE &           INCOME &               IRIS &              LETTER &                 WDBC \\
+					\midrule
+					bagdt & \textit{n\_estimators} &         3,27,14 &         26,25,28 &             9,29,7 &            21,14,18 &              13,9,16 \\
+					bstdt & \textit{n\_estimators}  &        24,19,12 &         28,18,18 &            5,29,24 &            29,28,24 &             21,29,10 \\
+					\multirow{2}{*}{dt} & \textit{max\_depth} &           3,5,4 &            8,4,6 &              9,9,3 &            18,19,18 &                6,5,6 \\
+					& \textit{max\_features} &        18,24,19 &         18,24,26 &              3,4,4 &             10,15,6 &              7,11,15 \\
+					knn & \textit{n\_neighbors} &           4,5,9 &           8,6,17 &             12,9,1 &               1,1,1 &                9,7,7 \\
+					logreg & \textit{C} &  $10^2$,1,10 &  1e-05,01,01 &  10,$10^3$,$10^2$ &  $10^2$,$10^3$,$10^2$ &  $10^3$0,10,$10^3$ \\
+					\multirow{2}{*}{rf} & \textit{max\_features} &        20,16,16 &          20,16,8 &              1,2,2 &               4,2,8 &               12,8,8 \\
+					& \textit{n\_estimators} &  $2^{10}$,$2^{10}$,$2^{10}$ &   $2^{10}$,$2^{10}$,$2^{10}$ &     $2^{10}$,$2^{10}$,$2^{10}$ &      $2^{10}$,$2^{10}$,$2^{10}$ &       $2^{10}$,$2^{10}$,$2^{10}$ \\
+					\bottomrule
+				\end{tabular}
+			
+			\end{table}
+			
 			% Overall average results of clfs on datasets
 			\begin{table}[h]
-				\caption{Classifier testing accuracy by problem, averaged over shuffles (0.8 train split)}
+				\caption{Classifier testing accuracy by problem, averaged over shuffles (0.8 train split):}
 				\begin{tabular}{lrrrrr}
 					\toprule
 					Classifier & WDBC & INCOME & IRIS & COVTYPE & LETTER \\
 					\midrule
-					bagdt  & .968 &   .833 & .944 &    .971 &   .873 \\
-					bstdt  & .968 &   .840 & .956 &    .971 &   .771 \\
-					dt     & .953 &   .799 & .956 &    .970 &   .820 \\
-					knn    & .950 &   .757 & .933 &    .967 &   \textbf{.899} \\
-					logreg & .968 &   .792 & \textbf{.967} &    .968 &   .721 \\
-					rf     & \textbf{.982} &   \textbf{.848} & .944 &    \textbf{.976} &   .897 \\
+					Bagged Trees  & .968 &   .833 & .944 &    .971 &   .873 \\
+					Boosted Trees  & .968 &   .840 & .956 &    .971 &   .771 \\
+					Decision Tree     & .953 &   .799 & .956 &    .970 &   .820 \\
+					KNN    & .950 &   .757 & .933 &    .967 &   \textbf{.899} \\
+					Logistic Regression & .968 &   .792 & \textbf{.967} &    .968 &   .721 \\
+					Random Forest     & \textbf{.982} &   \textbf{.848} & .944 &    \textbf{.976} &   .897 \\
 					\bottomrule
 				\end{tabular}
 			\end{table}
 		
 			% Overall average results of clfs, sorted
 			\begin{table}[h]
-				\caption{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split)}
+				\caption{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split):}
+				\label{tab:clf_ranking}
 				\begin{tabular}{lr}
 					\toprule
 					{Classifier} & Accuracy \\
 					\midrule
-					rf     &     .930 \\
-					bagdt  &     .918 \\
-					knn    &     .901 \\
-					bstdt  &     .901 \\
-					dt     &     .900 \\
-					logreg &     .883 \\
+					Random Forest     &     .930 \\
+					Bagged Trees  &     .918 \\
+					KNN    &     .901 \\
+					Boosted Trees  &     .901 \\
+					Decision Tree     &     .900 \\
+					Logistic Regression &     .883 \\
 					\bottomrule
 				\end{tabular}
 			\end{table}

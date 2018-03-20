@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2018.3.19)  19 MAR 2018 16:09
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2018.3.19)  19 MAR 2018 20:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -333,6 +333,18 @@ Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
 \diagbox@outsepl=\dimen135
 \diagbox@outsepr=\dimen136
 )
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count121
+\rotFPtop=\skip55
+\rotFPbot=\skip56
+\rot@float@box=\box30
+\rot@mess@toks=\toks18
+)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
 
@@ -362,46 +374,53 @@ tempboxa \hbox {#1: #2} \ifdim \wd \@tempboxa >\hsize \begin {list}{#1:}{ \sett
 owidth {\labelwidth }{#1:} \setlength {\leftmargin }{\labelwidth } \addtolength
  {\leftmargin }{\labelsep } }\item #2 \end {list}\par \else \hbox to\hsize {\hf
 il \box \@tempboxa \hfil } \fi .
-\c@ContinuedFloat=\count121
+\c@ContinuedFloat=\count122
 Package caption Info: hyperref package is loaded.
+Package caption Info: rotating package is loaded.
 )
-\c@subfigure=\count122
-\c@subtable=\count123
-) (./document.aux)
+\c@subfigure=\count123
+\c@subtable=\count124
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
+\multirow@colwidth=\skip57
+\multirow@cntb=\count125
+\multirow@dima=\skip58
+\bigstrutjot=\dimen144
+)
+(./document.aux)
 \openout1 = `document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-\AtBeginShipoutBox=\box30
-Package hyperref Info: Link coloring OFF on input line 33.
-
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+\AtBeginShipoutBox=\box31
+Package hyperref Info: Link coloring OFF on input line 35.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count124
+\c@section@level=\count126
 )
-LaTeX Info: Redefining \ref on input line 33.
-LaTeX Info: Redefining \pageref on input line 33.
-LaTeX Info: Redefining \nameref on input line 33.
+LaTeX Info: Redefining \ref on input line 35.
+LaTeX Info: Redefining \pageref on input line 35.
+LaTeX Info: Redefining \nameref on input line 35.
 
 (./document.out) (./document.out)
 \@outlinefile=\write3
@@ -414,14 +433,36 @@ Package caption Info: End \AtBeginDocument code.
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 
 )
+File: knn_hyperparam_zoomed.pdf Graphic file (type pdf)
+<use knn_hyperparam_zoomed.pdf>
+File: knn_hyperparam_all.pdf Graphic file (type pdf)
+<use knn_hyperparam_all.pdf>
+File: dt_hyperparam_max_depth.pdf Graphic file (type pdf)
+<use dt_hyperparam_max_depth.pdf>
+File: dt_hyperparam_max_features.pdf Graphic file (type pdf)
+<use dt_hyperparam_max_features.pdf>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: logreg_hyperparam.pdf Graphic file (type pdf)
+<use logreg_hyperparam.pdf>
+File: rf_hyperparam.pdf Graphic file (type pdf)
+<use rf_hyperparam.pdf>
+File: bagdt_hyperparam.pdf Graphic file (type pdf)
+<use bagdt_hyperparam.pdf>
+File: bstdt_hyperparam.pdf Graphic file (type pdf)
+<use bstdt_hyperparam.pdf>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 File: tr_acc_by_clf_trainsplit.pdf Graphic file (type pdf)
 <use tr_acc_by_clf_trainsplit.pdf>
-LaTeX Font Info:    Try loading font information for U+msa on input line 71.
-
+LaTeX Font Info:    Try loading font information for U+msa on input line 132.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 71.
+LaTeX Font Info:    Try loading font information for U+msb on input line 132.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -429,8 +470,24 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: te_acc_by_clf_trainsplit.pdf Graphic file (type pdf)
 <use te_acc_by_clf_trainsplit.pdf>
 
-Overfull \hbox (2.43091pt too wide) in paragraph at lines 67--77
+Overfull \hbox (2.43091pt too wide) in paragraph at lines 128--138
 []$[]$ $[]$ 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
+Overfull \hbox (23.02795pt too wide) in paragraph at lines 149--164
+[][] 
  []
 
 
@@ -442,26 +499,24 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [1
-
-]
-[2]
+ [4]
+[5]
 No file document.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 139.
-[3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 139.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
+[6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
  (./document.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 139.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 139.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 139.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 225.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 225.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 225.
  ) 
 Here is how much of TeX's memory you used:
- 11106 strings out of 494947
- 156016 string characters out of 6177099
- 352813 words of memory out of 5000000
- 14846 multiletter control sequences out of 15000+600000
- 8728 words of font info for 43 fonts, out of 8000000 for 9000
+ 11314 strings out of 494947
+ 159690 string characters out of 6177099
+ 360232 words of memory out of 5000000
+ 15035 multiletter control sequences out of 15000+600000
+ 8736 words of font info for 44 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 42i,7n,45p,252b,441s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,10n,45p,744b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on document.pdf (3 pages).
+Output written on document.pdf (6 pages).
