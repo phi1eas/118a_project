@@ -17,9 +17,9 @@
 \providecommand*\HyPL@Entry[1]{}
 \bibstyle{plainnat}
 \citation{andrychowicz_learning_2016}
-\citation{caruana_empirical_2006}
 \HyPL@Entry{0<</S/D>>}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
+\citation{caruana_empirical_2006}
 \citation{dheeru_uci_2017}
 \citation{mangasarian_cancer_1990}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Method}{2}{section.2}}
@@ -28,7 +28,7 @@
 \@writefile{toc}{\contentsline {paragraph}{INCOME}{2}{subsection.2.1}}
 \@writefile{toc}{\contentsline {paragraph}{LETTER}{2}{subsection.2.1}}
 \@writefile{toc}{\contentsline {paragraph}{IRIS}{2}{subsection.2.1}}
-\@writefile{toc}{\contentsline {paragraph}{WDBC}{2}{subsection.2.1}}
+\@writefile{toc}{\contentsline {paragraph}{WDBC}{3}{subsection.2.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Classifier Algorithms}{3}{subsection.2.2}}
 \newlabel{sec:clf_hyperparams}{{2.2}{3}{Classifier Algorithms}{subsection.2.2}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Original and limited sizes of data sets\relax }}{3}{table.caption.1}}
@@ -58,8 +58,8 @@
 \newlabel{sub@fig:hyperparam_dt_max_depth}{{c}{5}{Decision Tree: \textit {max\_depth}\relax }{figure.caption.2}{}}
 \newlabel{fig:hyperparam_dt_max_features}{{1d}{5}{Decision Tree: \textit {max\_features}\relax }{figure.caption.2}{}}
 \newlabel{sub@fig:hyperparam_dt_max_features}{{d}{5}{Decision Tree: \textit {max\_features}\relax }{figure.caption.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref  {fig:hyperparam_knn_zoomed} and \ref  {fig:hyperparam_knn_all}) and Decision Tree (\ref  {fig:hyperparam_dt_max_depth} and \ref  {fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train split. (\ref  {fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref  {fig:hyperparam_dt_max_depth}) for greater detail. (\ref  {fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit  {max\_depth}, averaged over \textit  {max\_features}, and vice versa in (\ref  {fig:hyperparam_dt_max_depth}).\relax }}{5}{figure.caption.2}}
-\newlabel{fig:hyperparam_knn_dt}{{1}{5}{Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref {fig:hyperparam_knn_zoomed} and \ref {fig:hyperparam_knn_all}) and Decision Tree (\ref {fig:hyperparam_dt_max_depth} and \ref {fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train split. (\ref {fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref {fig:hyperparam_dt_max_depth}) for greater detail. (\ref {fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit {max\_depth}, averaged over \textit {max\_features}, and vice versa in (\ref {fig:hyperparam_dt_max_depth}).\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref  {fig:hyperparam_knn_zoomed} and \ref  {fig:hyperparam_knn_all}) and Decision Tree (\ref  {fig:hyperparam_dt_max_depth} and \ref  {fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train splits. (\ref  {fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref  {fig:hyperparam_knn_all}) for greater detail. (\ref  {fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit  {max\_depth}, averaged over \textit  {max\_features}, and vice versa in (\ref  {fig:hyperparam_dt_max_features}).\relax }}{5}{figure.caption.2}}
+\newlabel{fig:hyperparam_knn_dt}{{1}{5}{Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref {fig:hyperparam_knn_zoomed} and \ref {fig:hyperparam_knn_all}) and Decision Tree (\ref {fig:hyperparam_dt_max_depth} and \ref {fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train splits. (\ref {fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref {fig:hyperparam_knn_all}) for greater detail. (\ref {fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit {max\_depth}, averaged over \textit {max\_features}, and vice versa in (\ref {fig:hyperparam_dt_max_features}).\relax }{figure.caption.2}{}}
 \newlabel{fig:hyperparam_logreg}{{2a}{6}{Logistic Regression: \textit {C}\relax }{figure.caption.3}{}}
 \newlabel{sub@fig:hyperparam_logreg}{{a}{6}{Logistic Regression: \textit {C}\relax }{figure.caption.3}{}}
 \newlabel{fig:hyperparam_rf}{{2b}{6}{Random Forest: \textit {n\_estimators}\relax }{figure.caption.3}{}}
@@ -85,6 +85,8 @@
 \newlabel{tab:clf_ranking}{{4}{8}{Overall average testing accuracy by classifier and comparison with results from \cite {caruana_empirical_2006}\relax }{table.caption.7}{}}
 \newlabel{table:1b}{{4a}{8}{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split):\relax }{table.caption.7}{}}
 \newlabel{sub@table:1b}{{a}{8}{Ranked classifiers by testing accuracy, averaged over problems and shuffles (0.8 train split):\relax }{table.caption.7}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces Code used for this analysis, using the class \textit  {BigLoop}\relax }}{9}{listing.1}}
+\newlabel{listing:code}{{1}{9}{Code used for this analysis, using the class \textit {BigLoop}\relax }{listing.1}{}}
 \bibdata{118a}
 \bibcite{andrychowicz_learning_2016}{{1}{2016}{{Andrychowicz et~al.}}{{Andrychowicz, Denil, Gomez, Hoffman, Pfau, Schaul, Shillingford, and de~Freitas}}}
 \bibcite{caruana_empirical_2006}{{2}{2006}{{Caruana and Niculescu-Mizil}}{{}}}
@@ -93,4 +95,5 @@
 \gdef\minted@oldcachelist{,
   default-pyg-prefix.pygstyle,
   default.pygstyle,
+  CA190CD6ECE94B99FCA46C99748BC12B1C007370217B166059FECBD3DC7D52DE.pygtex,
   05338263E1FEF341746F7E6413328AA61C007370217B166059FECBD3DC7D52DE.pygtex}

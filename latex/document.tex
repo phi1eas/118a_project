@@ -20,6 +20,7 @@
 \usepackage{multirow}
 \usepackage{wrapfig}
 \usepackage{minted}
+\usepackage{framed}
 
 % Definitions of handy macros can go here
 
@@ -52,41 +53,41 @@
 	\begin{abstract}%   <- trailing '%' for backward compatibility of .sty file
 		
 	\end{abstract}
-		Using five-fold cross-validation, three different train-test splits of the datasets, and three random dataset shuffles, the algorithms KNN, Logistic Regression, Decision Trees, Bagged Trees, Boosted Trees, and Random Forest were trained on five different data set problems. The influence of several hyperparameters' values on prediction accuracy was visualized and, using the best hyperparameter value combination in each loop, testing accuracy was determined. Averaging over the random shuffles of the data sets, the observed overall ranking order of the classifiers was almost identical to that reported in existing literature.
+		Using five-fold cross-validation, three different train-test splits of the datasets, and three random dataset shuffles, the algorithms KNN, Logistic Regression, Decision Trees, Bagged Trees, Boosted Trees, and Random Forest were trained on five different data sets. The influence of several hyperparameters' values on prediction accuracy was visualized and, using the best hyperparameter value combination in each loop, testing accuracy was determined. Averaging over the random shuffles of the data sets, the observed overall ranking order of the classifiers was almost identical to that reported in existing literature. For almost all hyperparameters, their influence on testing accuracy seemed to follow a systematic relationship, which confirms the validity of recent approaches in machine learning to automatically learn optimal hyperparameter values.
 	
 	Word Count: $\approx 2300$
 	
 	\section{Introduction}
 		In the realm of machine learning algorithms, there are two kinds of parameters to be distinguished. First, there are the parameters that the algorithm seeks to learn from the data that it is trained on. These parameters are often called weights and determine the algorithm's transformation from the data input space to the prediction outcome space. Then, on a more abstract layer, there are the hyperparameters, which determine \textit{how} the algorithm learns from the data. They often constrain the learning process, assign weight to different loss functions, or influence tweaking strategies such as pruning or regularization.
 		
-		In machine learning practice (specifically in UCSD COGS 118A homework assignments), hyperparameters are usually either left at their default values or determined by exhaustive grid search. This approach leaves little space for understanding the role of the hyperparameters in influencing the algorithm's fitting quality. Moreover, it might be interesting to investigate whether there exists a systematic relationship between algorithm hyperparameter values, the problem data set used, and the overall prediction accuracy of the algorithm. Getting more insight into this relationship might be helpful to make the search for optimal prediction algorithms both more efficient and automated. For an example approach of automated hyperparameter tuning by applying machine learning to machine learning, see the paper \textit{Learning to learn by gradient descent by gradient descent} from Google DeepMind \citep{andrychowicz_learning_2016}.
+		In machine learning practice (specifically in UCSD COGS 118A homework assignments), hyperparameters are usually either left at their default values or determined by exhaustive grid search. This approach leaves little space for understanding the role of the hyperparameters in influencing the algorithm's quality of fit. Moreover, it might be interesting to investigate whether there exists a systematic relationship between algorithm hyperparameter values, the problem data set used, and the overall prediction accuracy of the algorithm. Getting more insight into this relationship might be helpful to make the search for optimal prediction algorithms both more efficient and automated. For an example approach of automated hyperparameter tuning by applying machine learning to machine learning, see the paper \textit{Learning to learn by gradient descent by gradient descent} from Google DeepMind \citep{andrychowicz_learning_2016}.
 		
-		Before this background is the motivation of the present study: to visualize and better understand how several binary classifiers' hyperparameters influence training and testing accuracy on different data sets. The goal is to use cross-validation, several different train-test-splits and multiple random samples from the datasets to achieve reliable results. In addition, the average testing accuracies of all classifiers on each of the problem data sets were compared to find out whether they could replicate the results from the comprehensive empirical classification performance study by \cite{caruana_empirical_2006}.
+		Before this background is the motivation of the present study: to visualize and better understand how several binary classifiers' hyperparameters influence training and testing accuracy on different data sets. The goal is to use cross-validation, several different train-test-splits and multiple random samples from the datasets to achieve reliable results. In addition, the average testing accuracies of all classifiers on each of the problem data sets shall be compared to investigate whether they can replicate the results from the comprehensive empirical classification performance study by \cite{caruana_empirical_2006}.
 	
 	\section{Method}
 		\subsection{Problems}
-			Five supervised binary classification problem data sets that are available at the UCI Machine Learning database \citep{dheeru_uci_2017} were used for this analysis: The Covertype Data Set (\textit{COVTYPE}), the Census Income Data Set (\textit{INCOME}), the Letter Recognition Data Set (\textit{LETTER}), the Iris Data Set (\textit{IRIS}), and the Breast Cancer Wisconsin (Original) Data Set \citep[\textit{WDBC}][]{mangasarian_cancer_1990}. All of these five data sets consist of rows with sample observations and columns with features. The binary classification target was either included in the data set download (INCOME, IRIS, WDBC) or created from the existing multi-class target (COVTYPE, LETTER).
+			Five supervised binary classification problem data sets that are available at the UCI Machine Learning database \citep{dheeru_uci_2017} were used for this analysis: The Covertype Data Set (\textit{COVTYPE}), the Census Income Data Set (\textit{INCOME}), the Letter Recognition Data Set (\textit{LETTER}), the Iris Data Set (\textit{IRIS}), and the Breast Cancer Wisconsin (Original) Data Set \citep[\textit{WDBC},][]{mangasarian_cancer_1990}. All of these five data sets consist of rows with sample observations and columns with features. The binary classification target was either included in the data set download (INCOME, IRIS, WDBC) or created from an existing multi-class target (COVTYPE, LETTER).
 			
-			The following paragraphs describe the purposes of each of the five data sets and gives examples of their features.
+			The following paragraphs describe the purposes of each of the five data sets and give examples of their features.
 			
 			\paragraph{COVTYPE}
-			Predictors are quantitative and qualitative measurements of cartographic variables for 30x30 meter cells from the US Geological Survey (USGS) and US Forest Service (USFS) data. The outcome is a class of seven forest cover types as determined by the USFS Region 2 Resource Information System (RIS) data. The largest outcome class is interpreted as a positive outcome. Predictor examples: \textit{Elevation} measured in meters, \textit{Soil Type} as indicated by one of 40 classes.
+			Predictors are quantitative and qualitative measurements of cartographic variables for 30x30 meter cells from US Geological Survey (USGS) and US Forest Service (USFS) data. The outcome is a class of seven forest cover types as determined by the USFS Region 2 Resource Information System (RIS) data. The largest outcome class is interpreted as a positive outcome. \textit{Predictor examples}: \textit{Elevation} measured in meters, \textit{Soil Type} as indicated by one of 40 classes.
 			
 			\paragraph{INCOME}
-			Predictors are quantitative and qualitative US Census data. The outcome is the yearly income of a given subject, indicated by either >\$50k/y or <\$50k/y. The first is interpreted as a positive outcome, the second as a negative. Predictor examples: \textit{Age} in years, \textit{Relationship} as one of the class Wife, Own-Child, Husband, Not-in-family, Other-relative, Unmarried.
+			Predictors are quantitative and qualitative US Census data. The outcome is the yearly income of a given subject, indicated by either >\$50k/y or <\$50k/y. The first is interpreted as a positive outcome, the second as a negative. \textit{Predictor examples}: \textit{Age} in years, \textit{Relationship} as one of the class Wife, Own-Child, Husband, Not-in-family, Other-relative, Unmarried.
 			
 			\paragraph{LETTER}
-			Predictors are quantitative numerical attributes (statistical moments and edge counts) of a large number of black-and-white rectangular pixel displays of the 26 capital letters in the English alphabet. The outcome is the English letter, where letters A-L were used as a positive and letters M-Z were used as a negative outcome. Predictor examples: mean x y correlation, correlation of y-edges with x.
+			Predictors are quantitative numerical attributes (statistical moments and edge counts) of a large number of black-and-white rectangular pixel displays of the 26 capital letters in the English alphabet. The outcome is the English letter, where letters A-L were used as a positive and letters M-Z were used as negative outcomes. \textit{Predictor examples}: mean x y correlation, correlation of y-edges with x.
 			
 			\paragraph{IRIS}
 			Predictors are sepal and petal width and length of iris plants. The outcome is the class of three types of iris plants. The first class (Iris Setosa) was used as a negative outcome, the second (Iris Versicolor) as a positive outcome.
 			
 			\paragraph{WDBC}
-			Predictors are quantitative measurements of attributes of breast cancer samples. The outcome is the class of benign and malignant diagnosis results, where benign was interpreted as a negative and malignant as a positive outcomes. Predictor examples: Clump Thickness (1-10), Uniformity of Cell Shape (1-10). The data stem from the University of Wisconsin Hospitals.
+			Predictors are quantitative measurements of attributes of breast cancer samples. The outcome is the class of benign and malignant diagnosis results, where benign was interpreted as a negative and malignant as a positive outcome. \textit{Predictor examples}: \textit{Clump Thickness (1-10)}, \textit{Uniformity of Cell Shape} (1-10). The data stem from University of Wisconsin Hospitals.
 			
 			\vspace{1em}
 			
-			In order for the analysis based on heavily nested loops to run in sensible time, the number of observations in all datasets with $|DATASET| > 2000$ was limited to 2000 randomly drawn samples. Table \ref{tab:data_sizes} lists the resulting and original data set sizes.
+			In order to reduce the running time of the analysis, which is based on heavily nested loops, to a reasonable amount, the number of observations in all datasets with $|DATASET| > 2000$ was limited to 2000 randomly drawn samples. Table \ref{tab:data_sizes} lists the resulting and original data set sizes.
 			
 			% tab:data_sizes - Data size table
 			\begin{wraptable}{l}{.52\linewidth}
@@ -106,10 +107,10 @@
 	
 		\subsection{Classifier Algorithms}
 			\label{sec:clf_hyperparams}
-			Six classification algorithms were trained on the data sets described above: K Nearest Neighbors (\textit{knn}), Logistic Regression (\textit{logreg}), Decision Trees (\textit{dt}), Bagged Decision Trees (\textit{bagdt}), Boosted Decision Trees (\textit{bstdt}), and Random Forest (\textit{rf}). All were implemented in Python using the corresponding sub-package from the \textit{scikit-learn} package. The following paragraphs describe the hyperparameters that were varied in grid search and in analyzing their influence on classification performance.
+			Six classification algorithms were trained on the data sets described above: K Nearest Neighbors (\textit{knn}), Logistic Regression (\textit{logreg}), Decision Trees (\textit{dt}), Bagged Decision Trees (\textit{bagdt}), Boosted Decision Trees (\textit{bstdt}), and Random Forest (\textit{rf}). All were implemented in Python using the corresponding classes from the \textit{scikit-learn} package. The following paragraphs describe the hyperparameters that were varied in grid search and considered in analyzing their influence on classification performance.
 			
 			\paragraph{K Nearest Neighbors (knn)}
-			$K$ was varied to assume all values between $K=1$ and $K=30$, and, if $|DATASET|>30$, 10 additional values that were evenly spread between 30 and $|DATASET|$. If $\frac{|DATASET|}{cv\_fold} < 30$, the values of $K$ assumed all values up to that maximal value.
+			$K$ was varied to assume all values between $K=1$ and $K=30$, and, if $|DATASET|>30$, in the set of 10 additional values that were evenly spread between 30 and $|DATASET|$. If $\frac{|DATASET|}{cv\_fold} < 30$, then the range of values for $K$ was limited to $\frac{|DATASET|}{cv\_fold}$.
 			
 			\paragraph{Logistic Regressoin (logreg)}
 			The inverse regularization parameter $C$ was varied between $10^{-8}$ and $10^4$ in factors of 10. Larger values of $C$ allow the parameters of the model to vary more freely.
@@ -139,86 +140,92 @@
 			
 			% Hyperparam figures # 1
 			\begin{figure}[h]
-				\centering
+				\begin{framed}
+					\centering
+					
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{knn_hyperparam_zoomed}
+						\caption{KNN: \textit{k}}
+						\label{fig:hyperparam_knn_zoomed}
+					\end{subfigure}
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{knn_hyperparam_all}
+						\caption{KNN: \textit{k}}
+						\label{fig:hyperparam_knn_all}
+					\end{subfigure}
 				
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{knn_hyperparam_zoomed}
-					\caption{KNN: \textit{k}}
-					\label{fig:hyperparam_knn_zoomed}
-				\end{subfigure}
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{knn_hyperparam_all}
-					\caption{KNN: \textit{k}}
-					\label{fig:hyperparam_knn_all}
-				\end{subfigure}
-			
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{dt_hyperparam_max_depth}
-					\caption{Decision Tree: \textit{max\_depth}}
-					\label{fig:hyperparam_dt_max_depth}
-				\end{subfigure}
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{dt_hyperparam_max_features}
-					\caption{Decision Tree: \textit{max\_features}}
-					\label{fig:hyperparam_dt_max_features}
-				\end{subfigure}
-				
-				\caption{Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref{fig:hyperparam_knn_zoomed} and \ref{fig:hyperparam_knn_all}) and Decision Tree (\ref{fig:hyperparam_dt_max_depth} and \ref{fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train split. (\ref{fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref{fig:hyperparam_dt_max_depth}) for greater detail. (\ref{fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit{max\_depth}, averaged over \textit{max\_features}, and vice versa in (\ref{fig:hyperparam_dt_max_depth}).}
-				\label{fig:hyperparam_knn_dt}
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{dt_hyperparam_max_depth}
+						\caption{Decision Tree: \textit{max\_depth}}
+						\label{fig:hyperparam_dt_max_depth}
+					\end{subfigure}
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{dt_hyperparam_max_features}
+						\caption{Decision Tree: \textit{max\_features}}
+						\label{fig:hyperparam_dt_max_features}
+					\end{subfigure}
+					
+					\caption{Average cross-validated prediction accuracy by hyperparameter value for KNN (\ref{fig:hyperparam_knn_zoomed} and \ref{fig:hyperparam_knn_all}) and Decision Tree (\ref{fig:hyperparam_dt_max_depth} and \ref{fig:hyperparam_dt_max_features}), averaged over problems, shuffles, and train splits. (\ref{fig:hyperparam_knn_zoomed}) zooms in on a subset of the results shown in (\ref{fig:hyperparam_knn_all}) for greater detail. (\ref{fig:hyperparam_dt_max_depth}) depicts results for varying levels of \textit{max\_depth}, averaged over \textit{max\_features}, and vice versa in (\ref{fig:hyperparam_dt_max_features}).}
+					\label{fig:hyperparam_knn_dt}
+				\end{framed}
 			\end{figure}
 			
 			% Hyperparam figures # 2
 			\begin{figure}[h]
-				\centering
-				
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{logreg_hyperparam}
-					\caption{Logistic Regression: \textit{C}}
-					\label{fig:hyperparam_logreg}
-				\end{subfigure}
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{rf_hyperparam}
-					\caption{Random Forest: \textit{n\_estimators}}
-					\label{fig:hyperparam_rf}
-				\end{subfigure}
-				
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{bagdt_hyperparam}
-					\caption{Bagged Decision Trees: \textit{n\_estimators}}
-					\label{fig:hyperparam_bagdt}
-				\end{subfigure}
-				\begin{subfigure}[b]{.49\linewidth}
-					\includegraphics[width=\linewidth]{bstdt_hyperparam}
-					\caption{Boosted Decision Trees: \textit{n\_estimators}}
-					\label{fig:hyperparam_bstdt}
-				\end{subfigure}
-				
-				\caption{Average cross-validated prediction accuracy by hyperparameter value for Logistic Regression (\ref{fig:hyperparam_logreg}), Random Forest (\ref{fig:hyperparam_rf}), Bagged Decision Trees (\ref{fig:hyperparam_bagdt}), and Boosted Decision Trees (\ref{fig:hyperparam_bstdt}).}
-				\label{fig:hyperparam_others}
+				\begin{framed}
+					\centering
+					
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{logreg_hyperparam}
+						\caption{Logistic Regression: \textit{C}}
+						\label{fig:hyperparam_logreg}
+					\end{subfigure}
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{rf_hyperparam}
+						\caption{Random Forest: \textit{n\_estimators}}
+						\label{fig:hyperparam_rf}
+					\end{subfigure}
+					
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{bagdt_hyperparam}
+						\caption{Bagged Decision Trees: \textit{n\_estimators}}
+						\label{fig:hyperparam_bagdt}
+					\end{subfigure}
+					\begin{subfigure}[b]{.49\linewidth}
+						\includegraphics[width=\linewidth]{bstdt_hyperparam}
+						\caption{Boosted Decision Trees: \textit{n\_estimators}}
+						\label{fig:hyperparam_bstdt}
+					\end{subfigure}
+					
+					\caption{Average cross-validated prediction accuracy by hyperparameter value for Logistic Regression (\ref{fig:hyperparam_logreg}), Random Forest (\ref{fig:hyperparam_rf}), Bagged Decision Trees (\ref{fig:hyperparam_bagdt}), and Boosted Decision Trees (\ref{fig:hyperparam_bstdt}).}
+					\label{fig:hyperparam_others}
+				\end{framed}
 			\end{figure}
 		
 		\subsection{Train/Test split and Performance}
 			The influence of the train split and the resulting relative sizes of training and testing sets on prediction accuracy is shown separately for training and testing accuracies in Figure \ref{fig:perf_by_trainsplit}.
 			
 			\begin{figure}[h]
-				\begin{subfigure}{.5\textwidth}
-					\includegraphics[width=\textwidth]{tr_acc_by_clf_trainsplit}
-					\caption{Training accuracy}
-					\label{fig:perf_by_trainsplit_tr}
-				\end{subfigure}
-				\begin{subfigure}{.5\textwidth}
-					\includegraphics[width=\textwidth]{te_acc_by_clf_trainsplit}
-					\caption{Testing accuracy}
-					\label{fig:perf_by_trainsplit_te}
-				\end{subfigure}
-				\caption{Training (\ref{fig:perf_by_trainsplit_tr}) and testing (\ref{fig:perf_by_trainsplit_te}) accuracy by train split and classifier, averaged over problems and shuffles (rf: Random Forest, logreg: Logistic Regression, dt: Decision Tree, bagdt: Bagged Trees, bstdt: Boosted Trees)}
-				\label{fig:perf_by_trainsplit}
+				\begin{framed}
+					\begin{subfigure}{.5\textwidth}
+						\includegraphics[width=\textwidth]{tr_acc_by_clf_trainsplit}
+						\caption{Training accuracy}
+						\label{fig:perf_by_trainsplit_tr}
+					\end{subfigure}
+					\begin{subfigure}{.5\textwidth}
+						\includegraphics[width=\textwidth]{te_acc_by_clf_trainsplit}
+						\caption{Testing accuracy}
+						\label{fig:perf_by_trainsplit_te}
+					\end{subfigure}
+					\caption{Training (\ref{fig:perf_by_trainsplit_tr}) and testing (\ref{fig:perf_by_trainsplit_te}) accuracy by train split and classifier, averaged over problems and shuffles (rf: Random Forest, logreg: Logistic Regression, dt: Decision Tree, bagdt: Bagged Trees, bstdt: Boosted Trees)}
+					\label{fig:perf_by_trainsplit}
+				\end{framed}
 			\end{figure}
 		
 		\subsection{Overall Classifier Performance}
-			The estimates of overall classifier performance are based on the best hyperparameter combinations that were yielded by exhaustive grid search for each shuffle for \textit{train split} = .8. Table \ref{tab:best_hyperparams_by_problem_shuffles} lists these optimal hyperparameter values for each classifier, problem data set, and random shuffle. Based on models with these values, the prediction accuracy on the testing set was determined and averaged over the three shuffles. Table \ref{tab:test_acc_by_clf_and_problem} indicates the thus obtained mean testing accuracy for each classifier by problem data set.
+			The estimates of overall classifier performance are based on the best hyperparameter combinations that were yielded by exhaustive grid search for each shuffle for \textit{train split} = .8. Table \ref{tab:best_hyperparams_by_problem_shuffles} lists these optimal hyperparameter values for each classifier, problem data set, and random shuffle. Based on models with these values, the prediction accuracy on the testing set was determined and averaged over the three shuffles. Table \ref{tab:test_acc_by_clf_and_problem} indicates the thus obtained average testing accuracies for each classifier by problem data set.
 			
-			Finally, testing accuracies were averaged over problem data set. The resulting overall mean testing performances and rank order is given by Table \ref{tab:clf_ranking} .
+			Finally, testing accuracies were averaged over problems. The resulting overall mean testing performances and rank order is given by Table \ref{tab:clf_ranking}.
 			
 			% Model selection results: Best hyperparams
 			\begin{table}[h]
@@ -228,7 +235,7 @@
 				\begin{tabular}{lllllll}
 					\toprule
 					& & \multicolumn{5}{c}{\textbf{Problem}} \\\cline{3-7}
-					\textbf{Classifier} & \textbf{Hyperparam.} &         \textbf{COVTYPE} &           \textbf{INCOME} &               \textbf{IRIS} &              \textbf{LETTER} &                 \textbf{WDBC} \\
+					\rule{0pt}{3ex} \textbf{Classifier} & \textbf{Hyperparam.} &         \textbf{COVTYPE} &           \textbf{INCOME} &               \textbf{IRIS} &              \textbf{LETTER} &                 \textbf{WDBC} \\
 					\midrule
 					bagdt & \textit{n\_estimators} &         3,27,14 &         26,25,28 &             9,29,7 &            21,14,18 &              13,9,16 \\
 					bstdt & \textit{n\_estimators}  &        24,19,12 &         28,18,18 &            5,29,24 &            29,28,24 &             21,29,10 \\
@@ -299,24 +306,27 @@
 			\end{table}
 	
 	\section{Conclusion}
-		The present analysis managed to replicate a subset of the empirical results from \cite{caruana_empirical_2006}. The higher testing accuracies in Table \ref{tab:clf_ranking} in this study indicate that the problems were easier, but the ranking order is identical except for third and fourth place classifiers KNN and Boosted Trees - however, their results were extremely close to each other.
+		The present analysis managed to replicate a subset of the empirical results from \cite{caruana_empirical_2006}. The higher testing accuracies achieved in this study (see Table \ref{tab:clf_ranking}) indicate that the problems were on average easier. However, the ranking orders are identical except for third and fourth ranked classifiers KNN and Boosted Trees, which occur in reversed order in this ranking (but their scores were very close to each other).
 		
-		Considering the influence of hyperparameters on prediction accuracy, there seem to be three groups among the classifiers studied here:
+		Regarding the results of different train-test-splits (see Figure \ref{fig:perf_by_trainsplit}), the expected result of higher testing accuracies with larger relative training set sizes could also be replicated.
+		
+		Considering the relationship between hyperparameter and prediction accuracy, the classifiers studied here can be divided into three groups:
 		
 		\noindent\textbf{Type 1: Monotonic relationship between hyperparameter and performance}\\
-		For \textit{max\_features} in Decision Trees, testing performance stagnates for values higher than approximately 8 for all problems other than INCOME and LETTER, where testing accuracy kept slowly increasing after that for problems INCOME and LETTER. The regularization parameter $C$ in Logistic Regression showed an interesting influence on testing accuracy, which forms the shape of a sigmoid on the IRIS, LETTER, and WDBC problems. In both Bagged and Boosted Decision Trees, higher values of \textit{n\_estimators} correspond with higher testing accuracies.
+		For \textit{max\_features} in Decision Trees, testing performance stagnates for values higher than approximately 8 for all problems other than INCOME and LETTER, where testing accuracy kept slowly increasing after that value. The regularization parameter $C$ in Logistic Regression showed an interesting influence on testing accuracy, which forms the shape of a sigmoid in the case of the IRIS, LETTER, and WDBC problems. In both Bagged and Boosted Decision Trees, higher values of \textit{n\_estimators} correspond to higher testing accuracies.
 		
 		\noindent\textbf{Type 2: Local optimum or quick convergence}
-		In Decision Trees, testing accuracy converged quickly towards an upper limit with increasing values of \textit{max\_depth}, except for the problem INCOME, where testing accuracy started to slowly decrease after a hyperparameter value of approximately 10. The number $K$ of nearest neighbors considered in KNN seemed to have a ``sweet spot'' in form of a local maximum in testing accuracy in the lower range of values, but after an initial steep increase for most problems. A notable exception is the LETTER data set, where lower values of $K$ are better (see also \ref{tab:best_hyperparams_by_problem_shuffles}).
+		In Decision Trees, testing accuracy converged quickly towards an upper limit with increasing values of \textit{max\_depth}, except for the problem INCOME, where testing accuracy started to slowly decrease after a hyperparameter value of approximately 10. The number $K$ of nearest neighbors considered in KNN seemed to have a ``sweet spot'' in form of a local maximum in testing accuracy in the lower range of values, but after an initial steep increase for most problems. A notable exception is the LETTER data set, where lower values of $K$ are better (see also Table \ref{tab:best_hyperparams_by_problem_shuffles}).
 		
 		\noindent\textbf{Type 3: Unclear}
 		The relationship between $n\_estimators$ and testing accuracy in Random Forest is less clear. For WDBC, there is a slight positive correlation, whereas for LETTER, it is slightly negative. These results might be due to a ceiling effect, since Random Forest achieved very high overall.
 		
-		These results seem to imply systematic relationships between hyperparameters and testing accuracy. This makes the further development of Machine Learning algorithms to automatically tune model hyperparameters even more promising. The present study also visualized how much these relationships differ between different data sets, which shows that optimal hyperparameters indeed seem to be a problem that needs to be learned from data.
+		These results seem to imply systematic relationships between hyperparameters and testing accuracy. This makes the further development of Machine Learning algorithms that aim at automatically tuning model hyperparameters even more promising. The present study also visualized how much these relationships differ between different data sets, which shows that optimal hyperparameters indeed seem to be a problem that needs to be learned from data.
 	
 	\section{Bonus Points}
-		The code that this analysis is based on is highly generalized and abstracts over algorithms, data, train splits, and random shuffles. Each of these can conveniently be adjusted in the configuration part of the script, and calling one function is then enough to run all loops required for the present study (siehe code below). New classifiers can be implemented by adding a link to a scikit-learn estimator interface compatible class in \textit{CLF\_DICT}. The grid of hyperparameters to be varied is set by entries in \textit{CLF\_PARAM\_DICT}, using their scikit-learn estimator interface argument names. Similarly, additional data sets can be added by new named (X, y) tuples in DATA\_DICT. Any number of train split sizes can be indicated in TRAIN\_SPLITS, the maximal data size to be computed is determined by MAX\_DATA\_SIZE, and the number of randomly drawn sub-samples from the data set is set by N\_SHUFFLES. CV is the number of cross-validation folds, and knn\_fillup is the number of evenly spaced values of $K$ for KNN that are added to the parameter grid between the highest number indicated in CLF\_PARAM\_DICT and the maximum valid number determined by $\frac{|DATASET|}{CV}$.
+		The code that this analysis is based on is highly generalized and abstracts over algorithms, data, train splits, and random shuffles. Each of these can conveniently be adjusted in the configuration part of the script, and calling one function is then enough to run all loops required for the present study (siehe code below). New classifiers can be implemented by adding a link to a scikit-learn estimator interface compatible class in \textit{CLF\_DICT}. The grid of hyperparameters to be varied is set by entries in \textit{CLF\_PARAM\_DICT}, using their scikit-learn estimator interface argument names. Similarly, new data sets can be added by adding named (X, y) tuples to \textit{DATA\_DICT}. Any number of train split sizes can be indicated in \textit{TRAIN\_SPLITS}, and the maximal data size to be computed is determined by \textit{MAX\_DATA\_SIZE}. The number of randomly drawn sub-samples from the data set is set by \textit{N\_SHUFFLES}. \textit{CV} is the number of cross-validation folds, and \textit{KNN\_FILLUP} is the number of evenly spaced values of $K$ for KNN that are added to the parameter grid between the highest number indicated in CLF\_PARAM\_DICT and the maximum valid number determined by $\frac{|DATASET|}{CV}$ for each dataset. Listing \ref{listing:code} shows the code that is used for this analysis. All settings and loops are set using the uppercase configuration constants, and a call of \mint{python}{BigLoop.run()} runs the whole analysis with all required loops.
 		
+		\begin{listing}
 		\begin{minted}{python}
 
 CLF_DICT       = {'logreg': linear_model.LogisticRegression(),
@@ -353,8 +363,11 @@ loop = BigLoop(DATA_DICT, CLF_PARAM_DICT, TRAIN_SPLITS, N_SHUFFLES, CV,
 knn_fillup=KNN_FILLUP, method='grid_search', n_jobs=4)
 loop.run()
 		\end{minted}
+		\caption{Code used for this analysis, using the class \textit{BigLoop}}
+		\label{listing:code}
+		\end{listing}
 	
-		The BigLoop class already has a method included that allows to plot testing accuracy by hyperparameter for a given classifier and hyperparameter, averaged over shuffles and train splits. Another big advantage of this implementation is that the complete analysis, including the data, parameter combinations, results, and involved sklearn objects can be saved to one Pickle file, which can then quickly be loaded for further analysis without having to re-run the whole analysis.
+		The BigLoop class already has a method included that allows to plot testing accuracy by hyperparameter for a given classifier and hyperparameter, averaging over shuffles and train splits. Another big advantage of this implementation is that the complete analysis, including the data, parameter combinations, results, and involved sklearn objects can be saved to one Pickle file, which can then quickly be loaded for further analysis without having to re-run the whole analysis.
 		
 		The code that this analysis is based on is completely available on GitHub (\url{https://github.com/phi1eas/118a_project}), including the scripts that generated all plots and the \LaTeX \hspace{.2em} code underlying the tables in this report from experiment results saved in a bigloop.pkl file.
 		
